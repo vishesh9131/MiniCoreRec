@@ -34,7 +34,7 @@ def get_models():
             {"label": "Trained Model", "value": "trained_model"},
             {"label": "Megatron Model_e100", "value": "megatron_e100"},
             {"label": "Alpha Tuned Model_e1k", "value": "alpha_tuned_model_e1k_"},
-            {"label": "GOAT Model_e10k", "value": "GOAT_model_e10k_"},
+            {"label": "GOAT Model_e10k", "value": "GOAT_model_e1k_"},
             {"label": "Natural Model_e10", "value": "natural_model_e10_"},
             {"label": "Pushed Model_e50", "value": "pushed_model_e50_"},
             {"label": "Massive Surya_e10k", "value": "massive_surya_e10k"}
