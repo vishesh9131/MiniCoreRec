@@ -5,7 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import DraggableWrapper from './DraggableWrapper'; // Import custom Draggable wrapper
 import ResizableWrapper from './ResizableWrapper'; // Import custom Resizable wrapper
-// import 'react-resizable/css/styles.css';
+import 'react-resizable/css/styles.css';
 import './App.css'; // Import CSS for transitions
 
 // Import Roboto font if using npm
