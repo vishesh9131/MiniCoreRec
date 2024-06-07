@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Container, Button, Select, MenuItem, Slider, Typography, Box, AppBar, Toolbar, CssBaseline, Switch, FormControlLabel, Paper, Grid, Avatar, Card, CardContent, Divider } from '@mui/material';
+import { Container, Button, Slider, Typography, Box, AppBar, Toolbar, CssBaseline, Switch, FormControlLabel, Paper, Grid, Avatar, Card, CardContent, Divider, TextField } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 import DraggableWrapper from './DraggableWrapper'; // Import custom Draggable wrapper
 import ResizableWrapper from './ResizableWrapper'; // Import custom Resizable wrapper
@@ -195,94 +196,92 @@ function App() {
               </CardContent>
             </Card>
           )}
-          <Paper elevation={3} sx={{ mb: 4, borderRadius: 2 }}>
-            <Typography variant="h4" gutterBottom>
-              Test_A
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Select
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  displayEmpty
-                  fullWidth
-                  variant="outlined"
-                >
-                  <MenuItem value="" disabled>Select model</MenuItem>
-                  {models.map((mdl, index) => (
-                    <MenuItem key={index} value={mdl.value}>{mdl.label}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <Select
-                  value={label}
-                  onChange={(e) => setLabel(e.target.value)}
-                  displayEmpty
-                  fullWidth
-                  variant="outlined"
-                >
-                  <MenuItem value="" disabled>Select node label</MenuItem>
-                  {labels.map((lbl, index) => (
-                    <MenuItem key={index} value={lbl}>{lbl}</MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom>Top K</Typography>
-                <Slider
-                  value={topK}
-                  onChange={(e, val) => setTopK(val)}
-                  min={1}
-                  max={10}
-                  marks
-                  valueLabelDisplay="auto"
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom>Threshold</Typography>
-                <Slider
-                  value={threshold}
-                  onChange={(e, val) => setThreshold(val)}
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  marks
-                  valueLabelDisplay="auto"
-                  sx={{ mb: 2 }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleRunModel}
-                  fullWidth
-                  sx={{ mb: 2, borderRadius: 2, boxShadow: 'none' }}
-                >
-                  Run Model
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper>
-          <DraggableWrapper>
-            <ResizableWrapper width={298} height={276} minConstraints={[200, 100]} maxConstraints={[600, 400]}>
-              <Paper elevation={3} sx={{ cursor: 'move', height: '100%', borderRadius: 2 }}>
-              <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                Recommended nodes:
-              </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Box sx={{ p: 2, height: 'calc(100% - 48px)', overflow: 'auto' }}>
-                {recommendations.map((rec, index) => (
-                  <Typography key={index} variant="h6" gutterBottom>
-                    {rec}
-                  </Typography>
-                ))}
-              </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Paper elevation={3} sx={{ mb: 4, borderRadius: 2, height: 300 }}>
+                <Typography variant="h4" gutterBottom>
+                  Test_A
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      options={models}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => <TextField {...params} label="Select model" variant="outlined" />}
+                      value={models.find((mdl) => mdl.value === model) || null}
+                      onChange={(event, newValue) => setModel(newValue ? newValue.value : '')}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      options={labels}
+                      getOptionLabel={(option) => option}
+                      renderInput={(params) => <TextField {...params} label="Select node label" variant="outlined" />}
+                      value={label}
+                      onChange={(event, newValue) => setLabel(newValue || '')}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom>Top K</Typography>
+                    <Slider
+                      value={topK}
+                      onChange={(e, val) => setTopK(val)}
+                      min={1}
+                      max={10}
+                      marks
+                      valueLabelDisplay="auto"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom>Threshold</Typography>
+                    <Slider
+                      value={threshold}
+                      onChange={(e, val) => setThreshold(val)}
+                      min={0}
+                      max={1}
+                      step={0.1}
+                      marks
+                      valueLabelDisplay="auto"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleRunModel}
+                      fullWidth
+                      sx={{ mb: 2, borderRadius: 2, boxShadow: 'none' }}
+                    >
+                      Run Model
+                    </Button>
+                  </Grid>
+                </Grid>
               </Paper>
-            </ResizableWrapper>
-          </DraggableWrapper>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <DraggableWrapper>
+                <ResizableWrapper width={298} height={276} minConstraints={[200, 100]} maxConstraints={[600, 400]}>
+                  <Paper elevation={3} sx={{ cursor: 'move', height: '100%', borderRadius: 2 }}>
+                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                      Recommended nodes:
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <Box sx={{ p: 2, height: 'calc(100% - 48px)', overflow: 'auto' }}>
+                      {recommendations.map((rec, index) => (
+                        <Typography key={index} variant="h6" gutterBottom>
+                          {rec}
+                        </Typography>
+                      ))}
+                    </Box>
+                  </Paper>
+                </ResizableWrapper>
+              </DraggableWrapper>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </ThemeProvider>
