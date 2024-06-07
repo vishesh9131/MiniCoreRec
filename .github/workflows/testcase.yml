@@ -16,10 +16,7 @@ jobs:
         node-version: '18'
 
     - name: Install dependencies
-      run: npm install
-
-    - name: Add missing Babel plugin
-      run: npm install --save-dev @babel/plugin-proposal-private-property-in-object
+      run: npm install --legacy-peer-deps
 
     - name: Run tests
       run: npm test -- --detectOpenHandles
